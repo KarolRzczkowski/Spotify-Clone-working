@@ -21,6 +21,13 @@ client.connect()
     console.log('Error connecting to MongoDB', err);
   });
 
+
+
+
+
+
+
+
 app.post('/emails', async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
@@ -63,29 +70,6 @@ app.post('/existsemail', async (req: Request, res: Response) => {
     console.log('Check server code', error);
   }
 });
-
-//sendemailwith code
-
-const transporter = nodemailer.createTransport({
-  host: "spotify.com",
-  port: 465,
-  secure: true,
-  auth: {
-    
-    user: "REPLACE-WITH-YOUR-ALIAS@YOURDOMAIN.COM",
-    pass: "REPLACE-WITH-YOUR-GENERATED-PASSWORD",
-  },
-});
-
-
-
-
-
-
-
-
-
-
 
 
 app.post('/auth', async (req, res) => {
