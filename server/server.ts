@@ -21,7 +21,6 @@ client.connect()
     console.log('Error connecting to MongoDB', err);
   });
 
-
 app.post('/emails', async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
@@ -45,7 +44,25 @@ app.post('/passwords', async (req: Request, res: Response) => {
     console.log('Check server code', error);
   }
 });
+app.post('/auth', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const emailsCollection = db.collection('emails');
+    const passwordsCollection = db.collection('passwords');
 
+    const emailExists = await emailsCollection.findOne({ email });
+    const passwordMatches = await passwordsCollection.findOne({ password });
+
+    if (emailExists && passwordMatches) {
+      res.status(200).send("Authentication successful");
+    } else {
+      res.status(401).send("Authentication failed");
+    }
+  } catch (error) {
+    res.status(500).send("Something went wrong inside the server code");
+    console.log('Check server code', error);
+  }
+});
 
 
 // Obsługa sygnału SIGINT do zamknięcia połączenia z MongoDB przed wyłączeniem serwera

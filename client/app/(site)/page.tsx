@@ -1,14 +1,11 @@
-'use client'
-import Header from '../components/Header'
-import React from 'react'
-import Firstpage from '../components/Firstpage'
-function Home() {
+import Header from '../components/Header';
+import Firstpage from '../components/Firstpage';
+
+export default function Home() {
   return (
     <div className="bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
-      <Header/>
+      <Header />
       <Firstpage />
     </div>
   );
 }
-
-export default Home

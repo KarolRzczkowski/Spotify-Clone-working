@@ -18,7 +18,7 @@ interface SidebarProps {
 const Sidebar = ({ children }: SidebarProps) => {
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   
-const router = useRouter() 
+const router = useRouter()
 
   const pathname = usePathname();
 
@@ -43,7 +43,7 @@ const router = useRouter()
   };
 
   return (
-    <div className={twMerge(`flex h-full w-100px`,)}>
+    <div className={twMerge(`flex h-full w-100px z-10`,)}>
       <div className={twMerge(`
         hidden 
         md:flex 
@@ -73,7 +73,7 @@ const router = useRouter()
   className={twMerge(`
     fixed bottom-4 left-4 z-10 
     p-2 rounded-full bg-black 
-    text-white hover:bg-green-500
+    text-white hover:bg-green-800
     transition-all cursor-pointer
     opacity-[80%]
     hidden md:block 

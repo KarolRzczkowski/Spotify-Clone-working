@@ -10,18 +10,30 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/colors": "^2.1.0",
+    "@radix-ui/react-dialog": "^1.0.4",
+    "@supabase/auth-ui-react": "^0.4.2",
+    "@supabase/auth-ui-shared": "^0.1.6",
     "@types/node": "20.5.6",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "firebase": "^10.3.0",
     "next": "13.4.19",
     "postcss": "8.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "^6.15.0",
+    "styled-components": "^6.0.7",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2"
+  },
+  "resolutions": {
+    "registry.npmjs.org": "http://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "supabase": "^1.88.0"
   }
 }
