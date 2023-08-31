@@ -1,7 +1,6 @@
 import express, { Response, Request } from 'express';
 import { MongoClient, Db } from 'mongodb';
 import cors from 'cors';
-import nodemailer from 'nodemailer'
 const app = express();
 const port = process.env.PORT || 9000;
 
@@ -20,14 +19,6 @@ client.connect()
   .catch(err => {
     console.log('Error connecting to MongoDB', err);
   });
-
-
-
-
-
-
-
-
 app.post('/emails', async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
