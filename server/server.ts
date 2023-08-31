@@ -1,7 +1,7 @@
 import express, { Response, Request } from 'express';
 import { MongoClient, Db } from 'mongodb';
 import cors from 'cors';
-
+import nodemailer from 'nodemailer'
 const app = express();
 const port = process.env.PORT || 9000;
 
@@ -44,6 +44,50 @@ app.post('/passwords', async (req: Request, res: Response) => {
     console.log('Check server code', error);
   }
 });
+
+
+
+app.post('/existsemail', async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    const emailCollection = db.collection('emails');
+    const existingEmail = await emailCollection.findOne({ email });
+
+    if (existingEmail) {
+      res.status(200).send('Email Exists');
+    } else {
+      res.status(404).send('Email Not Found');
+    }
+  } catch (error) {
+    res.status(500).send('Something went wrong');
+    console.log('Check server code', error);
+  }
+});
+
+//sendemailwith code
+
+const transporter = nodemailer.createTransport({
+  host: "spotify.com",
+  port: 465,
+  secure: true,
+  auth: {
+    
+    user: "REPLACE-WITH-YOUR-ALIAS@YOURDOMAIN.COM",
+    pass: "REPLACE-WITH-YOUR-GENERATED-PASSWORD",
+  },
+});
+
+
+
+
+
+
+
+
+
+
+
+
 app.post('/auth', async (req, res) => {
   try {
     const { email, password } = req.body;

@@ -10,13 +10,14 @@ import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import spotify from './images/spotify-icon.svg'
 import { useRouter } from 'next/navigation';
-import ForgottenPassword from './ForgottenPassword';
+import ForgottenPassword from '../password/ForgottenPassword';
 import Link from 'next/link';
+import password from '../password/ForgottenPassword';
 interface FirstPageProps {
   isLoggedin?: boolean;
 }
 
-const Firstpage: React.FC<FirstPageProps> = () => {
+const Firstpage: React.FC<FirstPageProps> = ({}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
@@ -226,7 +227,7 @@ const Firstpage: React.FC<FirstPageProps> = () => {
               </div>
             </div>
             <div className='flex items-center justify-center cursor-pointer hover:underline'>
-            <Link href='/ForgottenPassword'>Forgotten Password?</Link>
+            <button onClick={() => router.push('/passwordreset' , {scroll:false})}>Forgotten Password?</button>
 </div>
 
             <button
