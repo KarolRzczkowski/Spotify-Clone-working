@@ -1,6 +1,6 @@
 # Spotify-Clone made by Karol Rzeczkowski
 
-I'm working about better spotify;
+At this time I'm working about a better clone of the most popular music  webapp  i'm still working about project.
 
 ![Zrzut ekranu 2023-09-01 112326](https://github.com/KarolRzczkowski/Spotify-Clone-working/assets/127603994/f2d9a681-9707-48d8-9d69-dc0ed74a1aa4)
 ## All of the neccesery library's
