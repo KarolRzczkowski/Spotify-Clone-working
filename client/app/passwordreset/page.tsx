@@ -155,77 +155,76 @@ function Page() {
     }
   };
   return (
-    <main className='bg-black w-full h-full flex justify-center items-center'>
-      <div className='text-center'>
-        {userExists ? (
-          <div className='w-96 bg-black-900 h-72 flex flex-col items-center justify-center rounded-lg p-4 space-y-4'>
-            {isCodeCorrect ? (
-              <div className='w-72 bg-black flex flex-col items-center justify-center rounded-lg p-4 space-y-4'>
-                <input
-                  className={`w-full h-10 bg-black ${isSamePassword ? '' : 'border border-red-500'} px-[-10px] border-green-600`}
-                  type='password'
-                  placeholder='Enter new password'
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-                <input
-                  className={`w-full h-10 bg-black ${isSamePassword ? '' : 'border border-red-500'} px-2`}
-                  type='password'
-                  placeholder='Repeat new password'
-                  value={repeatPassword}
-                  onChange={(e) => setRepeatPassword(e.target.value)}
-                />
-                <button
-                  className='bg-blue-500 px-4 py-2 mt-2 text-white'
-                  onClick={handleSavePassword}
-                  disabled={!isSamePassword}
-                >
-                  Save Password
-                </button>
-              </div>
-            ) : (
-              <React.Fragment>
-                <p className='text-white text-xl mb-2'>Enter the verification code</p>
-                <div className='flex space-x-4 justify-center text-center'>
-                  {codeInputs.map((input, index) => (
-                    <input
-                      key={index}
-                      id={`input-${index}`}
-                      value={input}
-                      className='w-10 h-10 bg-black border rounded text-center text-white'
-                      type='text'
-                      maxLength='1'
-                      onChange={(e) => handleCodeInputChange(index, e.target.value)}
-                      onBlur={() => handleCodeInputBlur(index)}
-                    />
-                  ))}
-                </div>
-                <p className='pt-2'>{generatedCode}</p>
-              </React.Fragment>
-            )}
+<main className='bg-black w-full h-full flex justify-center items-center'>
+  <div className='text-center'>
+    {userExists ? (
+      <div className='w-96 bg-black-900 h-72 flex flex-col items-center justify-center rounded-lg p-4 space-y-4'>
+        {isCodeCorrect ? (
+          <div className='w-72 bg-black flex flex-col items-center justify-center rounded-lg p-4 space-y-4'>
+            <input
+              className={` translate-x-[-25px] w-full h-10 bg-black ${isSamePassword ? '' : 'border border-red-500'} px-[-10px] border-green-600`}
+              type='password'
+              placeholder='Enter new password'
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            <input
+              className={` translate-x-[-31px] w-full h-10 bg-black ${isSamePassword ? '' : 'border border-red-500'} px-2`}
+              type='password'
+              placeholder='Repeat new password'
+              value={repeatPassword}
+              onChange={(e) => setRepeatPassword(e.target.value)}
+            />
+            <button
+              className='bg-blue-500 px-8 py-2 mt-2 text-white translate-x-[-65px]'
+              onClick={handleSavePassword}
+              disabled={!isSamePassword}
+            >
+              Save Password
+            </button>
           </div>
         ) : (
-          <div className='w-96 h-72 bg-black rounded-lg p-4'>
-            <p className='mb-4 text-white text-2xl text-center'>Enter your Email</p>
-            <input
-              className={`w-full px-3 py-2 rounded-md bg-neutral-900 text-white placeholder-gray-500 focus:outline-none ${
-                userExists ? 'border border-green-500' : 'border border-red-500'
-              }`}
-              type='email'
-              value={email}
-              onChange={handleEmailChange}
-              placeholder='Enter email'
-            />
-            {userExists ? (
-              <div className='text-green-500 mt-2'>User exists in the database.</div>
-            ) : (
-              <div className='text-red-500'>User does not exist in the database</div>
-            )}
-          </div>
+          <React.Fragment >
+            <p    className='text-white  translate-x-[-60px]  text-xl mb-2'>Enter the verification code</p>
+            <div className='flex   space-x-4 justify-center text-center'>
+              {codeInputs.map((input, index) => (
+                <input
+                  key={index}
+                  id={`input-${index}`}
+                  value={input}
+                  className='  translate-x-[-60px] w-10 h-10 bg-black border rounded text-center text-white'
+                  type='text'
+                  maxLength='1'
+                  onChange={(e) => handleCodeInputChange(index, e.target.value)}
+                  onBlur={() => handleCodeInputBlur(index)}
+                />
+              ))}
+            </div>
+            <p className='pt-2 translate-x-[-60px]'>{generatedCode}</p>
+          </React.Fragment>
         )}
       </div>
-    </main>
-  );
-  
-            }
+    ) : (
+      <div className='w-96 h-72 bg-black rounded-lg p-4 flex flex-col items-center justify-center translate-x-[-60px]'>
+        <p className='mb-4 text-white text-2xl text-center'>Enter your Email</p>
+        <input
+          className={`w-full px-3 py-2 rounded-md bg-neutral-900 text-white placeholder-gray-500 focus:outline-none ${
+            userExists ? 'border border-green-500' : 'border border-red-500'
+          }`}
+          type='email'
+          value={email}
+          onChange={handleEmailChange}
+          placeholder='Enter email'
+        />
+        {userExists ? (
+          <div className='text-green-500 mt-2'>User exists in the database.</div>
+        ) : (
+          <div className='text-red-500'>User does not exist in the database</div>
+        )}
+      </div>
+    )}
+  </div>
+</main>
+  )
+        }
 export default Page;

@@ -1,49 +1,32 @@
-'use client';
+// components/Sidebar.tsx
+'use client'
 import React, { useState } from 'react';
 import { HiHome } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
 import { twMerge } from 'tailwind-merge';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation'; // Importuj useRouter z next/router
 import Box from './Box';
-import { useRouter } from 'next/navigation';
-import { useMemo } from 'react';
 import Sidebaritem from './Sidebaritem';
 import Library from './Library';
-
 
 interface SidebarProps {
   children: React.ReactNode;
 }
 
-const Sidebar = ({ children }: SidebarProps) => {
+const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
-  
-const router = useRouter()
-
-  const pathname = usePathname();
-
-  const routes = useMemo(() => [
-    {
-      icon: HiHome,
-      label: 'Home',
-      active: pathname !== '/search',
-      href: '/'
-    },
-    {
-      icon: BiSearch,
-      label: 'Search',
-      href: '/search',
-      active: pathname === '/search',
-
-    },
-  ], [pathname]);
+  const router = useRouter();
 
   const toggleSidebar = () => {
     setSidebarMinimized(!sidebarMinimized);
   };
 
+  const handleSearchClick = () => {
+    router.push('/search');
+  };
+  
   return (
-    <div className={twMerge(`flex h-full w-100px z-10`,)}>
+    <div className={twMerge(`flex h-full w-100px z-10`)}>
       <div className={twMerge(`
         hidden 
         md:flex 
@@ -56,33 +39,47 @@ const router = useRouter()
       `)}>
         <Box>
           <div className="flex flex-col gap-y-4 px-5 py-4">
-            {routes.map((item) => (
-              <Sidebaritem key={item.label} {...item} />
-            ))}
+            <div
+              className={`flex flex-row h-auto items-center w-full gap-x-4 text-md font-medium cursor-pointer hover:text-white transition text-neutral-400 py-1 ${
+                router.pathname !== '/search' ? 'text-white' : ''
+              }`}
+              onClick={() => router.push('/')}
+            >
+              <HiHome size={26} />
+              <p className='truncate w-full'>Home</p>
+            </div>
+            <div
+              className={`flex flex-row h-auto items-center w-full gap-x-4 text-md font-medium cursor-pointer hover:text-white transition text-neutral-400 py-1 ${
+                router.pathname === '/search' ? 'text-white' : ''
+              }`}
+              onClick={handleSearchClick}
+            >
+              <BiSearch size={26} />
+              <p className='truncate w-full'>Search</p>
+            </div>
           </div>
         </Box>
         <Box className="overflow-y-auto h-full">
-          <Library minimized={sidebarMinimized} /> {/* Pass the minimized prop */}
+          <Library minimized={sidebarMinimized} />
         </Box>
       </div>
       <main className={`h-full flex-1 overflow-y-auto py-2 ${sidebarMinimized ? 'w-1/2' : 'w-full'} transition-all`}>
         {children}
       </main>
       <button
-  onClick={toggleSidebar}
-  className={twMerge(`
-    fixed bottom-4 left-4 z-10 
-    p-2 rounded-full bg-black 
-    text-white hover:bg-green-800
-    transition-all cursor-pointer
-    opacity-[80%]
-    hidden md:block 
-    items-ceter
-  `)}
->
-  Toggle Sidebar
-</button>
-
+        onClick={toggleSidebar}
+        className={twMerge(`
+          fixed bottom-4 left-4 z-10 
+          p-2 rounded-full bg-black 
+          text-white hover:bg-green-800
+          transition-all cursor-pointer
+          opacity-[80%]
+          hidden md:block 
+          items-center
+        `)}
+      >
+        Toggle Sidebar
+      </button>
     </div>
   );
 };
