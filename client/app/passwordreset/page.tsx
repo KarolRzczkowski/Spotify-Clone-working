@@ -1,14 +1,23 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
- function Page() {
+function Page() {
   const [email, setEmail] = useState('');
   const [userExists, setUserExists] = useState(false);
+  const [passwordExists, setPasswordExists] = useState(false);
   const [codeInputs, setCodeInputs] = useState(['', '', '', '']);
   const [generatedCode, setGeneratedCode] = useState(0);
   const [enteredCode, setEnteredCode] = useState('');
   const [isCodeCorrect, setIsCodeCorrect] = useState(false);
+  const [password, setPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const [isSamePassword, setIsSamePassword] = useState(true);
+
+  const router = useRouter();
 
   const checkUserExists = async (emailToCheck) => {
     try {
@@ -39,11 +48,26 @@ import axios from 'axios';
       setIsCodeCorrect(false);
       setCodeInputs(['', '', '', '']);
       setEnteredCode('');
+
+      const checkPasswordExists = async () => {
+        try {
+          const response = await axios.post('/auth', {
+            email: newEmail,
+            password: oldPassword,
+          });
+
+          setPasswordExists(response.data === 'Authentication successful');
+        } catch (error) {
+          console.log('Error in checking password', error);
+        }
+      };
+
+      checkPasswordExists();
     }
   };
 
   const handleCodeInputChange = (index, value) => {
-    if (isAllDigits(value) || value === '') {
+    if (/^\d+$/.test(value) || value === '') {
       const newCodeInputs = [...codeInputs];
       newCodeInputs[index] = value;
       setCodeInputs(newCodeInputs);
@@ -81,23 +105,84 @@ import axios from 'axios';
       setIsCodeCorrect(false);
       setCodeInputs(['', '', '', '']);
       setEnteredCode('');
-    }
-  }, [userExists]);
 
+      const checkPasswordExists = async () => {
+        try {
+          const response = await axios.post('/auth', {
+            email: email,
+            password: oldPassword,
+          });
+
+          setPasswordExists(response.data === 'Authentication successful');
+        } catch (error) {
+          console.log('Error in checking password', error);
+        }
+      };
+
+      checkPasswordExists();
+    }
+  }, [userExists, oldPassword]);
+
+  useEffect(() => {
+    setIsSamePassword(newPassword === repeatPassword);
+  }, [newPassword, repeatPassword]);
+
+
+  const handleSavePassword = async () => {
+    if (isSamePassword) {
+      try {
+        const response = await axios.post('/passwords', {
+          email: email,
+          password: newPassword,
+        });
+        
+
+        if (response.status === 200 ) {
+          console.log('Password saved s');
+          if(newPassword && repeatPassword !== ""){
+          router.push('/');
+          }else{
+            console.log("You must to write something inside inputs")
+          }
+        } else {
+          console.log('Error saving password');
+        }
+      } catch (error) {
+        console.log('Error saving password', error);
+      }
+    } else {
+      console.log('Passwords do not match');
+    }
+  };
   return (
     <main className='bg-black w-full h-full flex justify-center items-center'>
-      <div className='text-center pr-[80px]'>
+      <div className='text-center'>
         {userExists ? (
-          <div className='w-[500px] bg-black-900 h-[200px] justify-center'>
+          <div className='w-96 bg-black-900 h-72 flex flex-col items-center justify-center rounded-lg p-4 space-y-4'>
             {isCodeCorrect ? (
-            <div className='w-[300px] h-[200px] bg-black  justify-center'>
-              <div className='justify-center'>
-            <input  className='w-[200px] h-[30px] bg-black' type='password' placeholder='Enter lastest password'/>
-            </div>
-            <div>
-            <input className='w-[200px] h-[20px] bg-black' type='password' placeholder='Enter new password'/>
-</div>
-            </div>
+              <div className='w-72 bg-black flex flex-col items-center justify-center rounded-lg p-4 space-y-4'>
+                <input
+                  className={`w-full h-10 bg-black ${isSamePassword ? '' : 'border border-red-500'} px-[-10px] border-green-600`}
+                  type='password'
+                  placeholder='Enter new password'
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+                <input
+                  className={`w-full h-10 bg-black ${isSamePassword ? '' : 'border border-red-500'} px-2`}
+                  type='password'
+                  placeholder='Repeat new password'
+                  value={repeatPassword}
+                  onChange={(e) => setRepeatPassword(e.target.value)}
+                />
+                <button
+                  className='bg-blue-500 px-4 py-2 mt-2 text-white'
+                  onClick={handleSavePassword}
+                  disabled={!isSamePassword}
+                >
+                  Save Password
+                </button>
+              </div>
             ) : (
               <React.Fragment>
                 <p className='text-white text-xl mb-2'>Enter the verification code</p>
@@ -107,7 +192,7 @@ import axios from 'axios';
                       key={index}
                       id={`input-${index}`}
                       value={input}
-                      className='w-[40px] h-[40px] bg-black border rounded text-center text-white'
+                      className='w-10 h-10 bg-black border rounded text-center text-white'
                       type='text'
                       maxLength='1'
                       onChange={(e) => handleCodeInputChange(index, e.target.value)}
@@ -115,14 +200,13 @@ import axios from 'axios';
                     />
                   ))}
                 </div>
-              
-                <p className='pt-[20px]'>{generatedCode}</p>
+                <p className='pt-2'>{generatedCode}</p>
               </React.Fragment>
             )}
           </div>
         ) : (
-          <div className='w-[400px] h-[200px] bg-black rounded-lg p-6 pr-[50px]'>
-            <p className='mb-4 text-white text-2xl text-center justify-center translate-y-[-20px]'>Enter your Email</p>
+          <div className='w-96 h-72 bg-black rounded-lg p-4'>
+            <p className='mb-4 text-white text-2xl text-center'>Enter your Email</p>
             <input
               className={`w-full px-3 py-2 rounded-md bg-neutral-900 text-white placeholder-gray-500 focus:outline-none ${
                 userExists ? 'border border-green-500' : 'border border-red-500'
@@ -142,5 +226,6 @@ import axios from 'axios';
       </div>
     </main>
   );
+  
             }
-export default Page
+export default Page;

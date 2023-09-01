@@ -175,7 +175,7 @@ const Firstpage: React.FC<FirstPageProps> = ({}) => {
         <div className={`max-w-md w-full p-10 bg-neutral-800 rounded-md shadow-lg ${showLoginForm ? 'blur-content' : ''}`}>
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl mt-[20px] font-semibold mb-20 text-center flex justify-center">
-               <Image className='translate-y-[-7px] translate-x-[-10px] '  src={spotify} width={50} height={50} alt="" />
+               <Image className=' translate-y-[-2px] translate-x-[-10px] '  src={spotify} width={40} height={40} alt="" />
                Login to Spotify</h2>
             <div className="flex gap-4 items-center bg-neutral-800 p-2 rounded-md">
               <input
