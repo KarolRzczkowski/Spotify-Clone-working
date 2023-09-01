@@ -1,4 +1,4 @@
-# Nazwa Twojego Projektu
+# Spotify-Clone made by Karol Rzeczkowski
 
 I'm working about better spotify;
 
