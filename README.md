@@ -1,4 +1,4 @@
-## Spotify-Clone made by Karol Rzeczkowski
+##             Spotify-Clone made by Karol Rzeczkowski
 
 At this time I'm working about a better clone of the most popular music  webapp  i'm still working about project.
 
